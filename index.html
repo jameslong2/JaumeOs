@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+  <title>My first three.js app</title>
+  <link rel="icon" href="favicon.png">
+  <style>
+    body {
+      margin: 0;
+    }
+    #pantalla{
+      color:white;
+      width: 100%;
+      height: 100%;
+      
+      position: absolute;
+      z-index: -2;
+    }
+    #pwd{
+      z-index: -2;
+      position: absolute;
+    }
+    .iconosOs{
+      position: absolute;
+      z-index: -2;
+    }
+    #gif1{
+      position: absolute;
+      z-index: -2;
+    }
+  </style>
+</head>
+
+<body>
+  <img src="./profile.png" alt="" class="iconosOs">
+  <img src="./proyects.png" alt="" class="iconosOs">
+  <img src="./jobs.png" alt="" class="iconosOs">
+  <img src="./gif.gif" alt="" id="gif1">
+  <canvas id="pantalla" class="pantalla"></canvas>
+  <input type="number" name="pwd" id="pwd">
+  <script type="importmap">
+            {
+              "imports": {
+                "three": "./node_modules/three/build/three.module.js"/*,
+                "cannon-es": "./node_modules/cannon-es/dist/cannon-es.js",
+                "cannon-es-debugger": "./node_modules/cannon-es-debugger/dist/cannon-es-debugger.js",
+                "cannon-utils": "./node_modules/cannon-utils/dist/cannon-utils.js"*/
+              }
+            }
+            </script>
+  <script src="gifler.min.js"></script>
+  <script type="module" src="/main.js"></script>
+</body>
+
+</html>
