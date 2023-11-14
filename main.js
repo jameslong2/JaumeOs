@@ -66,7 +66,7 @@ pantallaTex.needsUpdate = true;
 var loadingText = document.getElementById("loadingTxt");
 const loader = new GLTFLoader();
 loader.load(
-	'./assets/computer/modelo4.glb',
+	'./assets/computer/output.glb',
 	function (gltf) {
 		scene.add(gltf.scene);
 		scene.traverse(
