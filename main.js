@@ -63,7 +63,7 @@ var ctx = canvas.getContext("2d");
 osScreen();
 var pantallaTex = new THREE.CanvasTexture(canvas);
 pantallaTex.needsUpdate = true;
-var loadingText = document.GetElementById("loadingTxt");
+var loadingText = document.getElementById("loadingTxt");
 const loader = new GLTFLoader();
 loader.load(
 	'./assets/computer/modelo4.glb',
