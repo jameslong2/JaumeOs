@@ -63,6 +63,7 @@ var ctx = canvas.getContext("2d");
 osScreen();
 var pantallaTex = new THREE.CanvasTexture(canvas);
 pantallaTex.needsUpdate = true;
+var loadingText = document.GetElementById("loadingTxt");
 const loader = new GLTFLoader();
 loader.load(
 	'./assets/computer/modelo4.glb',
@@ -78,9 +79,10 @@ loader.load(
 				}
 			}
 		);
+		loadingText.style.display = "none";
 	},
 	function (xhr) {
-
+		loadingText.text = "Loading "+(xhr.loaded / xhr.total * 100).toString()+"%";
 		//console.log((xhr.loaded / xhr.total * 100) + '% loaded');
 
 	},
