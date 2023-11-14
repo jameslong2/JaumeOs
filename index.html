@@ -29,6 +29,13 @@
       position: absolute;
       z-index: -2;
     }
+    .loadingTxt{
+      color: white;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      z-index: 10;
+    }
   </style>
 </head>
 
@@ -38,6 +45,7 @@
   <img src="./jobs.png" alt="" class="iconosOs">
   <canvas id="pantalla" class="pantalla"></canvas>
   <input type="number" name="pwd" id="pwd">
+  <p id="loadingTxt">Loading 0%</p>
     <script type="importmap">
         {
           "imports": {
