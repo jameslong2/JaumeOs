@@ -82,7 +82,7 @@ loader.load(
 		loadingText.style.display = "none";
 	},
 	function (xhr) {
-		loadingText.text = "Loading "+(xhr.loaded / xhr.total * 100)+"%";
+		loadingText.innerText = "Loading "+(xhr.loaded / xhr.total * 100)+"%";
 		//console.log((xhr.loaded / xhr.total * 100) + '% loaded');
 
 	},
