@@ -24,7 +24,7 @@ controls.minAzimuthAngle = -0.1;
 controls.enableDamping = true;
 controls.dampingFactor = 0.06;
 controls.enablePan = false;
-controls.target = new THREE.Vector3(0.2, 3.3, 0.5);
+controls.target = new THREE.Vector3(0.3, 3.3, 0.5);
 //
 var activeScreen = "OS";
 var inputMat = new THREE.MeshStandardMaterial();
