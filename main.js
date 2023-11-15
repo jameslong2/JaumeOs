@@ -185,6 +185,7 @@ inputPwd.addEventListener('focusout', stopBlink);
 inputPwd.addEventListener('keyup', function (e) {
 	if (e.key === "Enter" && inputPwd.value === "1234") {
 		loadMainScreen();
+		activeScreen = "menu";
 		clearTimeout(focusInput);
 		//1200 por 900
 		//gifler('./gif.gif').animate('canvas.pantalla');
