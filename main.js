@@ -117,7 +117,7 @@ document.onclick = function (e) {
 				if (activeScreen === "OS"){
 					document.getElementById("pwd").focus();
 					focusInput = setTimeout(blinkCursor, 1000);
-					activeScreen = "menu";
+					activeScreen = "OS";
 					breakFor = true;
 				}
 				break;
