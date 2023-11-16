@@ -110,7 +110,7 @@ loader.load(
 		loadingText.style.display = "none";
 	},
 	function (xhr) {
-		loadingText.innerText = "Loading "+Math.trunc(xhr.loaded / xhr.total * 100)+"%";
+		loadingText.innerText = "Loading " + Math.trunc(xhr.loaded / xhr.total * 100) + "%";
 		//console.log((xhr.loaded / xhr.total * 100) + '% loaded');
 
 	},
@@ -135,17 +135,39 @@ const raycaster = new THREE.Raycaster();
 var downOffset = 1;
 var selectedProject = 0;
 var actualTop = 0;
+var downOffsetJobs = 1;
+var selectedProjectJobs = 0;
+var actualTopJobs = 0;
+var videoPlaying = false;
+var listProjects = [
+	["Multiplayer Asteroids", "./VideosWeb/1.mp4"],
+	["Rtype Game", "./VideosWeb/2.mp4"],
+	["VR Billiard", "./VideosWeb/3.mp4"],
+	["2D Shooter", "./VideosWeb/4.mp4"],
+	["Tower Defense Game", "./VideosWeb/5.mp4"],
+	["Circular Tetris", "./VideosWeb/6.mp4"],
+	["Ball Game(Play Store)", "./VideosWeb/7.mp4"],
+	["Lightspeed(Play Store)", "./VideosWeb/8.mp4"],
+	["Terminal Pacman", "./VideosWeb/9.mp4"],
+	["3D 2048", "./VideosWeb/10.mp4"],
+	["Java Card Game", "./VideosWeb/11.mp4"],
+	["Java 2048", "./VideosWeb/12.mp4"],
+	["Java Casino Roulette", "./VideosWeb/13.mp4"]
+
+];
+var listJobs = [
+	["Tetravol(April 2023 - July 2023)", "https://www.tetravol.com/"]
+];
 document.onclick = function (e) {
 
 	raycaster.setFromCamera(new THREE.Vector2((e.clientX / window.innerWidth) * 2 - 1,
 		(e.clientY / window.innerHeight) * -2 + 1), camera);
-	var result = raycaster.intersectObjects([inputPASS,inputAbout,inputJobs,inputProyects,inputDown,inputUp,inputBack,inputSelect]);
-	for (var i = 0; i < result.length; i++)
-	{
+	var result = raycaster.intersectObjects([inputPASS, inputAbout, inputJobs, inputProyects, inputDown, inputUp, inputBack, inputSelect]);
+	for (var i = 0; i < result.length; i++) {
 		var breakFor = false;
-		switch (result[i].object.name){
+		switch (result[i].object.name) {
 			case "password":
-				if (activeScreen === "OS"){
+				if (activeScreen === "OS") {
 					document.getElementById("pwd").focus();
 					focusInput = setTimeout(blinkCursor, 1000);
 					activeScreen = "OS";
@@ -153,58 +175,89 @@ document.onclick = function (e) {
 				}
 				break;
 			case "about":
-				if (activeScreen === "menu"){
+				if (activeScreen === "menu") {
 					aboutMeScreen();
 					activeScreen = "aboutMe";
 					breakFor = true;
 				}
 				break;
 			case "proyects":
-				if (activeScreen === "menu"){
+				if (activeScreen === "menu") {
 					breakFor = true;
 					activeScreen = "proyects";
 					projectsScreen();
 				}
 				break;
 			case "jobs":
-				if (activeScreen === "menu"){
+				if (activeScreen === "menu") {
+					activeScreen = "jobs";
+					jobsScreen();
 					breakFor = true;
 				}
 				break;
 			case "up":
-				if (downOffset > 1){
+				if (downOffset > 1 && videoPlaying == false && activeScreen === "proyects") {
 					downOffset--;
-					if (activeScreen === "proyects"){
-						selectedProject--;
-						if (actualTop >= 1){
-							actualTop--;
-						}
-						projectsScreen();
-						breakFor = true;
+					selectedProject--;
+					if (actualTop >= 1) {
+						actualTop--;
 					}
+					projectsScreen();
+					breakFor = true;
+				} else if (downOffset > 1 && videoPlaying == false && activeScreen === "jobs") {
+					downOffsetJobs--;
+					selectedProjectJobs--;
+					if (actualTopJobs >= 1) {
+						actualTopJobs--;
+					}
+					jobsScreen();
+					breakFor = true;
 				}
 				break;
 			case "down":
-				if (downOffset < 13){
+				if (downOffset < listProjects.length && videoPlaying == false && activeScreen === "proyects") {
 					downOffset++;
-					if (activeScreen === "proyects"){
+					if (activeScreen === "proyects") {
 						selectedProject++;
-						if (selectedProject >= 5){
+						if (selectedProject >= 5) {
 							actualTop++;
 						}
 						projectsScreen();
 						breakFor = true;
 					}
+				} else if (downOffsetJobs < listJobs.length && videoPlaying == false && activeScreen === "jobs") {
+					downOffsetJobs++;
+					selectedProjectJobs++;
+					if (selectedProjectJobs >= 5) {
+						actualTopJobs++;
+					}
+					jobsScreen();
+					breakFor = true;
 				}
 				break;
 			case "select":
+				if (activeScreen === "proyects") {
+					document.getElementById('video').src = listProjects[selectedProject][1];
+					videoPlaying = true;
+					document.getElementById('video').play();
+				} else if (activeScreen === "jobs") {
+					window.open(listJobs[selectedProjectJobs][1], '_blank').focus();
+				}
 				break;
 			case "back":
-				if (activeScreen === "video"){
-
-				}else{
+				if (activeScreen === "proyects" && videoPlaying == true) {
+					clearTimeout(focusInput);
+					document.getElementById('video').pause();
+					projectsScreen();
+					breakFor = true;
+					videoPlaying = false;
+				} else if (activeScreen === "jobs" && videoPlaying == true) {
+					breakFor = true;
+					videoPlaying = false;
+				} else {
 					loadMainScreen();
 					activeScreen = "menu";
+					breakFor = true;
 				}
 				break;
 
@@ -214,34 +267,18 @@ document.onclick = function (e) {
 	}
 }
 var actualY = 200;
-var listProjects = [
-	["Multiplayer Asteroids","./VideosWeb/1.mp4"],
-	["Rtype Game","./VideosWeb/2.mp4"],
-	["VR Billiard","./VideosWeb/3.mp4"],
-	["2D Shooter","./VideosWeb/4.mp4"],
-	["Tower Defense Game","./VideosWeb/5.mp4"],
-	["Circular Tetris","./VideosWeb/6.mp4"],
-	["Ball Game(Play Store)","./VideosWeb/7.mp4"],
-	["Lightspeed(Play Store)","./VideosWeb/8.mp4"],
-	["Terminal Pacman","./VideosWeb/9.mp4"],
-	["3D 2048","./VideosWeb/10.mp4"],
-	["Java Card Game","./VideosWeb/11.mp4"],
-	["Java 2048","./VideosWeb/12.mp4"],
-	["Java Casino Roulette","./VideosWeb/13.mp4"]
-	
-];
-function projectsScreen(){
+
+function projectsScreen() {
 	actualY = 200;
 	ctx.fillStyle = "#030303";
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
 	ctx.font = "50px text";
 	ctx.fillStyle = "#00ff00";
 	ctx.textAlign = "left";
-	for (var i = actualTop; i < listProjects.length; i++)
-	{
+	for (var i = actualTop; i < listProjects.length; i++) {
 		ctx.fillStyle = "#00ff00";
-		if (i === selectedProject){
-			ctx.fillRect(125,actualY - 50,800,75);
+		if (i === selectedProject) {
+			ctx.fillRect(125, actualY - 50, 900, 75);
 			ctx.fillStyle = "#030303";
 		}
 		ctx.fillText(listProjects[i][0], 150, actualY);
@@ -249,30 +286,48 @@ function projectsScreen(){
 	}
 	elementsUI(550);
 }
-function elementsUI(y){
+function jobsScreen() {
+	actualY = 200;
+	ctx.fillStyle = "#030303";
+	ctx.fillRect(0, 0, canvas.width, canvas.height);
+	ctx.font = "50px text";
+	ctx.fillStyle = "#00ff00";
+	ctx.textAlign = "left";
+	for (var i = actualTopJobs; i < listJobs.length; i++) {
+		ctx.fillStyle = "#00ff00";
+		if (i === selectedProjectJobs) {
+			ctx.fillRect(125, actualY - 50, 900, 75);
+			ctx.fillStyle = "#030303";
+		}
+		ctx.fillText(listJobs[i][0], 150, actualY);
+		actualY += 80;
+	}
+	elementsUI(550);
+}
+function elementsUI(y) {
 	var down = document.getElementsByClassName("iconosOs")[3];
 	var up = document.getElementsByClassName("iconosOs")[4];
 	ctx.fillStyle = "#030303";
 	ctx.fillRect(0, y, canvas.width, canvas.height);
 	ctx.fillStyle = "#00ff00";
-	ctx.fillRect(125, y+20, 450, 100);
-	ctx.drawImage(down,325,y + 50,50,50);
+	ctx.fillRect(125, y + 20, 450, 100);
+	ctx.drawImage(down, 325, y + 50, 50, 50);
 
 	ctx.fillStyle = "#00ff00";
-	ctx.fillRect(600, y+20, 450, 100);
-	ctx.drawImage(up,800,y + 50,50,50);
+	ctx.fillRect(600, y + 20, 450, 100);
+	ctx.drawImage(up, 800, y + 50, 50, 50);
 	//
-	ctx.strokeRect(125,y+145,450,100);
+	ctx.strokeRect(125, y + 145, 450, 100);
 	ctx.stroke();
-	ctx.strokeRect(600,y+145,450,100);
+	ctx.strokeRect(600, y + 145, 450, 100);
 	ctx.stroke();
 	//
 	ctx.font = "50px text";
 	ctx.fillStyle = "#00ff00";
-	ctx.fillText("BACK",290,y+212);
-	ctx.fillText("SELECT",745,y+212);
+	ctx.fillText("BACK", 290, y + 212);
+	ctx.fillText("SELECT", 745, y + 212);
 }
-function aboutMeScreen(){
+function aboutMeScreen() {
 	ctx.fillStyle = "#030303";
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
 	ctx.font = "50px text";
@@ -280,7 +335,14 @@ function aboutMeScreen(){
 	var string = "My name is Jaume, I'm an\n enthusiastic programmer.\nI like to learn and \ninvestigate on my own in\n a self-taught way.";
 	var lines = string.split('\n');
 	for (var i = 0; i < lines.length; i++)
-		ctx.fillText(lines[i], canvas.width/2, 150+75*i);
+		ctx.fillText(lines[i], canvas.width / 2, 150 + 75 * i);
+	ctx.textAlign = "left";
+	ctx.fillStyle = "#00ff00";
+	ctx.strokeRect(125, 550 + 145, 450, 100);
+	ctx.stroke();
+	ctx.font = "50px text";
+	ctx.fillStyle = "#00ff00";
+	ctx.fillText("BACK", 290, 550 + 212);
 }
 function osScreen() {
 	ctx.fillStyle = "#030303";
@@ -316,18 +378,26 @@ inputPwd.addEventListener('keyup', function (e) {
 		loadMainScreen();
 		activeScreen = "menu";
 		clearTimeout(focusInput);
-		//1200 por 900
-		//gifler('./gif.gif').animate('canvas.pantalla');
 	}
 });
 
-function DrawVideo() {
-	ctx.drawImage(frames[actualFrame], 0, 0);
-	actualFrame++;
-	if (actualFrame >= frames.length)
-		actualFrame = 0;
-	setTimeout(DrawVideo,100)
-  }
+var video = document.getElementById('video');
+
+video.addEventListener('play', function () {
+	var $this = this;
+	(function loop() {
+		if (!$this.paused && !$this.ended) {
+			ctx.drawImage($this, 0, 0, canvas.width, canvas.height);
+			ctx.fillStyle = "#00ff00";
+			ctx.strokeRect(125, 550 + 145, 450, 100);
+			ctx.stroke();
+			ctx.font = "50px text";
+			ctx.fillStyle = "#00ff00";
+			ctx.fillText("BACK", 290, 550 + 212);
+			focusInput = setTimeout(loop, 1000 / 30);
+		}
+	})();
+}, 0);
 
 function loadMainScreen() {
 	ctx.textAlign = "center";
