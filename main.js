@@ -147,6 +147,7 @@ document.onclick = function (e) {
 }
 var selectedProject = 0;
 var actualY = 200;
+var downOffset = 0;
 var listProjects = [
 	["Multiplayer Asteroids","./VideosWeb/1.mp4"],
 	["Rtype Game","./VideosWeb/2.mp4"],
@@ -170,16 +171,30 @@ function projectsScreen(){
 	ctx.font = "50px text";
 	ctx.fillStyle = "#00ff00";
 	ctx.textAlign = "left";
-	for (var i = 0; i < listProjects.length; i++)
+	for (var i = downOffset; i < listProjects.length; i++)
 	{
 		ctx.fillStyle = "#00ff00";
 		if (i === selectedProject){
-			ctx.fillRect(125,actualY - 25,400,75);
+			ctx.fillRect(125,actualY - (actualY/3-15),800,75);
 			ctx.fillStyle = "#030303";
 		}
-		ctx.fillText(listProjects[i][0], 200, 150+75*i);
-		actualY += 100;
+		ctx.fillText(listProjects[i][0], 150, actualY);
+		actualY += 80;
 	}
+	elementsUI(550);
+}
+function elementsUI(y){
+	var down = document.getElementsByClassName("iconosOs")[3];
+	var up = document.getElementsByClassName("iconosOs")[4];
+	ctx.fillStyle = "#030303";
+	ctx.fillRect(0, y, canvas.width, canvas.height);
+	ctx.fillStyle = "#00ff00";
+	ctx.fillRect(125, y+20, 450, 100);
+	ctx.drawImage(down,325,y + 50,50,50);
+
+	ctx.fillStyle = "#00ff00";
+	ctx.fillRect(600, y+20, 450, 100);
+	ctx.drawImage(up,800,y + 50,50,50);
 }
 function aboutMeScreen(){
 	ctx.fillStyle = "#030303";
