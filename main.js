@@ -68,6 +68,20 @@ scene.add(inputUp);
 inputUp.position.y += 3.377;
 inputUp.position.x += 0.405;
 inputUp.position.z -= 0.04;
+
+var inputSelect = new THREE.Mesh(new THREE.BoxGeometry(0.23, 0.07, 0.03), inputMat);
+inputSelect.name = "select";
+scene.add(inputSelect);
+inputSelect.position.y += 3.3;
+inputSelect.position.x += 0.405;
+inputSelect.position.z -= 0.04;
+
+var inputBack = new THREE.Mesh(new THREE.BoxGeometry(0.23, 0.07, 0.03), inputMat);
+inputBack.name = "back";
+scene.add(inputBack);
+inputBack.position.y += 3.3;
+inputBack.position.x += 0.164;
+inputBack.position.z -= 0.04;
 //
 var pantalla = undefined;
 var canvas = document.getElementById("pantalla");
@@ -125,7 +139,7 @@ document.onclick = function (e) {
 
 	raycaster.setFromCamera(new THREE.Vector2((e.clientX / window.innerWidth) * 2 - 1,
 		(e.clientY / window.innerHeight) * -2 + 1), camera);
-	var result = raycaster.intersectObjects([inputPASS,inputAbout,inputJobs,inputProyects,inputDown,inputUp]);
+	var result = raycaster.intersectObjects([inputPASS,inputAbout,inputJobs,inputProyects,inputDown,inputUp,inputBack,inputSelect]);
 	for (var i = 0; i < result.length; i++)
 	{
 		var breakFor = false;
@@ -162,6 +176,9 @@ document.onclick = function (e) {
 					downOffset--;
 					if (activeScreen === "proyects"){
 						selectedProject--;
+						if (actualTop >= 1){
+							actualTop--;
+						}
 						projectsScreen();
 						breakFor = true;
 					}
@@ -172,10 +189,24 @@ document.onclick = function (e) {
 					downOffset++;
 					if (activeScreen === "proyects"){
 						selectedProject++;
+						if (selectedProject >= 5){
+							actualTop++;
+						}
 						projectsScreen();
 						breakFor = true;
 					}
 				}
+				break;
+			case "select":
+				break;
+			case "back":
+				if (activeScreen === "video"){
+
+				}else{
+					loadMainScreen();
+					activeScreen = "menu";
+				}
+				break;
 
 		}
 		if (breakFor)
@@ -230,6 +261,16 @@ function elementsUI(y){
 	ctx.fillStyle = "#00ff00";
 	ctx.fillRect(600, y+20, 450, 100);
 	ctx.drawImage(up,800,y + 50,50,50);
+	//
+	ctx.strokeRect(125,y+145,450,100);
+	ctx.stroke();
+	ctx.strokeRect(600,y+145,450,100);
+	ctx.stroke();
+	//
+	ctx.font = "50px text";
+	ctx.fillStyle = "#00ff00";
+	ctx.fillText("BACK",290,y+212);
+	ctx.fillText("SELECT",745,y+212);
 }
 function aboutMeScreen(){
 	ctx.fillStyle = "#030303";
@@ -289,16 +330,17 @@ function DrawVideo() {
   }
 
 function loadMainScreen() {
+	ctx.textAlign = "center";
 	ctx.fillStyle = "#030303";
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
 	ctx.lineWidth = 7;
 	//
 	ctx.strokeStyle = '#00ff00';
-	ctx.rect(137.5, 100, 375, 337.5);
+	ctx.strokeRect(137.5, 100, 375, 337.5);
 	ctx.stroke();
-	ctx.rect(687.5, 100, 375, 337.5);
+	ctx.strokeRect(687.5, 100, 375, 337.5);
 	ctx.stroke();
-	ctx.rect(137.5, 475, 925, 325);
+	ctx.strokeRect(137.5, 475, 925, 325);
 	ctx.stroke();
 	//s
 	var profile = document.getElementsByClassName("iconosOs")[0];
