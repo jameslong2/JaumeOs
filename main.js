@@ -131,6 +131,8 @@ document.onclick = function (e) {
 			case "proyects":
 				if (activeScreen === "menu"){
 					breakFor = true;
+					activeScreen = "proyects";
+					projectsScreen();
 				}
 				break;
 			case "jobs":
@@ -141,6 +143,42 @@ document.onclick = function (e) {
 		}
 		if (breakFor)
 			break;
+	}
+}
+var selectedProject = 0;
+var actualY = 200;
+var listProjects = [
+	["Multiplayer Asteroids","./VideosWeb/1.mp4"],
+	["Rtype Game","./VideosWeb/2.mp4"],
+	["VR Billiard","./VideosWeb/3.mp4"],
+	["2D Shooter","./VideosWeb/4.mp4"],
+	["Tower Defense Game","./VideosWeb/5.mp4"],
+	["Circular Tetris","./VideosWeb/6.mp4"],
+	["Ball Game(Play Store)","./VideosWeb/7.mp4"],
+	["Lightspeed(Play Store)","./VideosWeb/8.mp4"],
+	["Terminal Pacman","./VideosWeb/9.mp4"],
+	["3D 2048","./VideosWeb/10.mp4"],
+	["Java Card Game","./VideosWeb/11.mp4"],
+	["Java 2048","./VideosWeb/12.mp4"],
+	["Java Casino Roulette","./VideosWeb/13.mp4"]
+	
+];
+function projectsScreen(){
+	actualY = 200;
+	ctx.fillStyle = "#030303";
+	ctx.fillRect(0, 0, canvas.width, canvas.height);
+	ctx.font = "50px text";
+	ctx.fillStyle = "#00ff00";
+	ctx.textAlign = "left";
+	for (var i = 0; i < listProjects.length; i++)
+	{
+		ctx.fillStyle = "#00ff00";
+		if (i === selectedProject){
+			ctx.fillRect(125,actualY - 25,400,75);
+			ctx.fillStyle = "#030303";
+		}
+		ctx.fillText(listProjects[i][0], 200, 150+75*i);
+		actualY += 100;
 	}
 }
 function aboutMeScreen(){
