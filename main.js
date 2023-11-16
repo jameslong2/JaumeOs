@@ -54,6 +54,20 @@ inputJobs.name = "jobs";
 scene.add(inputJobs);
 inputJobs.position.y += 3.367;
 inputJobs.position.x += 0.285;
+
+var inputDown = new THREE.Mesh(new THREE.BoxGeometry(0.23, 0.07, 0.03), inputMat);
+inputDown.name = "down";
+scene.add(inputDown);
+inputDown.position.y += 3.377;
+inputDown.position.x += 0.164;
+inputDown.position.z -= 0.04;
+
+var inputUp = new THREE.Mesh(new THREE.BoxGeometry(0.23, 0.07, 0.03), inputMat);
+inputUp.name = "up";
+scene.add(inputUp);
+inputUp.position.y += 3.377;
+inputUp.position.x += 0.405;
+inputUp.position.z -= 0.04;
 //
 var pantalla = undefined;
 var canvas = document.getElementById("pantalla");
@@ -104,11 +118,14 @@ function Update() {
 }
 var focusInput;
 const raycaster = new THREE.Raycaster();
+var downOffset = 1;
+var selectedProject = 0;
+var actualTop = 0;
 document.onclick = function (e) {
 
 	raycaster.setFromCamera(new THREE.Vector2((e.clientX / window.innerWidth) * 2 - 1,
 		(e.clientY / window.innerHeight) * -2 + 1), camera);
-	var result = raycaster.intersectObjects([inputPASS,inputAbout,inputJobs,inputProyects]);
+	var result = raycaster.intersectObjects([inputPASS,inputAbout,inputJobs,inputProyects,inputDown,inputUp]);
 	for (var i = 0; i < result.length; i++)
 	{
 		var breakFor = false;
@@ -140,14 +157,32 @@ document.onclick = function (e) {
 					breakFor = true;
 				}
 				break;
+			case "up":
+				if (downOffset > 1){
+					downOffset--;
+					if (activeScreen === "proyects"){
+						selectedProject--;
+						projectsScreen();
+						breakFor = true;
+					}
+				}
+				break;
+			case "down":
+				if (downOffset < 13){
+					downOffset++;
+					if (activeScreen === "proyects"){
+						selectedProject++;
+						projectsScreen();
+						breakFor = true;
+					}
+				}
+
 		}
 		if (breakFor)
 			break;
 	}
 }
-var selectedProject = 0;
 var actualY = 200;
-var downOffset = 0;
 var listProjects = [
 	["Multiplayer Asteroids","./VideosWeb/1.mp4"],
 	["Rtype Game","./VideosWeb/2.mp4"],
@@ -171,11 +206,11 @@ function projectsScreen(){
 	ctx.font = "50px text";
 	ctx.fillStyle = "#00ff00";
 	ctx.textAlign = "left";
-	for (var i = downOffset; i < listProjects.length; i++)
+	for (var i = actualTop; i < listProjects.length; i++)
 	{
 		ctx.fillStyle = "#00ff00";
 		if (i === selectedProject){
-			ctx.fillRect(125,actualY - (actualY/3-15),800,75);
+			ctx.fillRect(125,actualY - 50,800,75);
 			ctx.fillStyle = "#030303";
 		}
 		ctx.fillText(listProjects[i][0], 150, actualY);
