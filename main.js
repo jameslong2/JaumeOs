@@ -416,9 +416,9 @@ function loadMainScreen() {
 	var profile = document.getElementsByClassName("iconosOs")[0];
 	var proyects = document.getElementsByClassName("iconosOs")[1];
 	var jobs = document.getElementsByClassName("iconosOs")[2];
-	ctx.drawImage(profile, 200, 125, profile.width * 1.5, profile.height * 1.5);
-	ctx.drawImage(proyects, 750, 125, profile.width * 1.5, profile.height * 1.5);
-	ctx.drawImage(jobs, canvas.width / 2 - profile.width / 4, 500, profile.width * 1.5 + 50, profile.height * 2 + 50);
+	ctx.drawImage(profile, 200, 125, profile.width * 2.7, profile.height * 2.7);
+	ctx.drawImage(proyects, 750, 125, profile.width * 2.7, profile.height * 2.7);
+	ctx.drawImage(jobs, canvas.width / 2 - profile.width * 1.35, 500, profile.width * 2.7 + 50, profile.height * 1.7 + 50);
 	ctx.font = "70px text";
 	ctx.fillStyle = "#00ff00";
 	ctx.fillText("ABOUT ME", 325, 400);
